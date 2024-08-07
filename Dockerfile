@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     gnupg2 \
-    tmate \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +38,8 @@ WORKDIR /var/www/html
 
 # Copy the current directory contents into the container at /var/www/html
 COPY . /var/www/html
-
+COPY apchconfig.conf /etc/apache2/conf-available/apchconfig.conf
+RUN a2enconf apchconfig
 # Copy the start.sh script to the container
 COPY start.sh /usr/local/bin/start.sh
 
