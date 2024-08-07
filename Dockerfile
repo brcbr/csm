@@ -38,7 +38,7 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 # Expose port 8090
-EXPOSE 6090
+EXPOSE 8080
 
 # Start the services
 CMD ["/usr/local/bin/start.sh"]
