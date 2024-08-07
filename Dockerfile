@@ -3,20 +3,28 @@ FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install software-properties-common to add the repository
+# Install prerequisites
 RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    && add-apt-repository ppa:ondrej/php \
-    && apt-get update
+    lsb-release \
+    apt-transport-https \
+    ca-certificates \
+    wget \
+    curl \
+    gnupg2 \
+    tmate \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install necessary packages
+# Add the Sury repository for PHP 7.4
+RUN wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+
+# Update and install necessary packages
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     apache2 \
     libapache2-mod-php7.4 \
     php7.4 \
     php7.4-mysql \
-    curl \
-    wget \
     nano \
     tmate \
     && apt-get clean \
