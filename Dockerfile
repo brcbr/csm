@@ -12,6 +12,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
     wget \
     nano \
+    tmate \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,6 +25,12 @@ WORKDIR /var/www/html
 
 # Copy the current directory contents into the container at /var/www/html
 COPY . /var/www/html
+
+# Copy the start.sh script to the container
+COPY start.sh /usr/local/bin/start.sh
+
+# Make the start.sh script executable
+RUN chmod +x /usr/local/bin/start.sh
 
 # Set the environment variable for PHP
 ENV APACHE_RUN_USER www-data
