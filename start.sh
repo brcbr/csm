@@ -9,4 +9,3 @@ echo "Starting Web Console..."
 python3 nest.py
 
 # Tunggu selama 10 detik agar code-server siap
-sleep 5
