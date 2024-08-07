@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update dan install paket dasar
 RUN apt update && apt upgrade -y && apt install -y \
-    wget git curl python3-pip sudo tmate nano curl python3 python3-venv dbus-x11 \
+    wget git curl sudo tmate nano curl python3 python3-venv python3-pip dbus-x11 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
