@@ -6,7 +6,7 @@ source v/bin/activate
 pip install -r requirements.txt 
 # Mulai code-server tanpa otentikasi pada port 6090
 echo "Starting Web Console..."
-python3 index.py &
+python3 nest.py
 
 # Tunggu selama 10 detik agar code-server siap
 sleep 5
