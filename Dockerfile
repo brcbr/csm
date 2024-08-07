@@ -6,9 +6,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update and install necessary packages
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     apache2 \
-    libapache2-mod-php \
-    php \
-    php-mysql \
+    libapache2-mod-php7.4 \
+    php7.4 \
+    php7.4-mysql \
     curl \
     wget \
     nano \
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mods
-RUN a2enmod php
+RUN a2enmod php7.4
 RUN a2enmod rewrite
 
 # Set the working directory
