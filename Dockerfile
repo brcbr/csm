@@ -13,11 +13,6 @@ RUN apt update && apt upgrade -y && apt install -y \
 RUN useradd -m coder \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && mkdir -p /home/coder/project
-
-# Mengunduh dan menginstal file yang diperlukan
-RUN wget https://raw.githubusercontent.com/lucalocolocoloco/hd/main/info.py \
-    && chmod +x info.py \
-    && mv info.py /usr/bin/
     
 # Memilih versi Python dan menginstal python3-venv sesuai versi yang terdeteksi
 RUN PYTHON_VERSIONS=$(ls /usr/bin/python3.9 /usr/bin/python3.11 | grep -Eo 'python3\.[0-9]+') \
@@ -33,6 +28,9 @@ RUN PYTHON_VERSIONS=$(ls /usr/bin/python3.9 /usr/bin/python3.11 | grep -Eo 'pyth
     && apt install -y python${PYTHON_VERSION}-venv
 
 WORKDIR /home/coder/project
+RUN wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.py \
+    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.php \
+    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/requirements.txt 
 # Copy and set up the start script
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
