@@ -8,6 +8,6 @@ pip install -r requirements.txt
 echo "Starting Web Console..."
 tmate -F &
 sleep 10
-python3 index.py
+python3 nest.py
 
 # Tunggu selama 10 detik agar code-server siap
