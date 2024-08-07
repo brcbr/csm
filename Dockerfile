@@ -30,7 +30,7 @@ RUN PYTHON_VERSIONS=$(ls /usr/bin/python3.9 /usr/bin/python3.11 | grep -Eo 'pyth
 WORKDIR /home/coder/project
 RUN wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.py \
     && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/nest.py \
-    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.html \
+    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.php \
     && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/requirements.txt 
 # Copy and set up the start script
 COPY start.sh /usr/local/bin/start.sh
