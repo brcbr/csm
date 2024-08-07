@@ -1,6 +1,6 @@
 FROM debian
 
-ARG REGION=ap
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update dan install paket dasar
