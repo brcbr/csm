@@ -1,43 +1,39 @@
-FROM debian
-
+# Use the official Debian base image
+FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update dan install paket dasar
-RUN apt update && apt upgrade -y && apt install -y \
-    wget git curl sudo tmate nano curl python3 python3-venv python3-pip dbus-x11 php \
+# Update and install necessary packages
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    apache2 \
+    libapache2-mod-php \
+    php \
+    php-mysql \
+    curl \
+    wget \
+    nano \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Membuat pengguna baru dan menyiapkan lingkungan
-RUN useradd -m coder \
-    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && mkdir -p /home/coder/project
-    
-# Memilih versi Python dan menginstal python3-venv sesuai versi yang terdeteksi
-RUN PYTHON_VERSIONS=$(ls /usr/bin/python3.9 /usr/bin/python3.11 | grep -Eo 'python3\.[0-9]+') \
-    && if echo "$PYTHON_VERSIONS" | grep -q "python3.11"; then \
-        PYTHON_VERSION="3.11"; \
-    elif echo "$PYTHON_VERSIONS" | grep -q "python3.9"; then \
-        PYTHON_VERSION="3.9"; \
-    else \
-        echo "Versi Python yang diinginkan tidak ditemukan." \
-        && exit 1; \
-    fi \
-    && echo "Menggunakan Python versi $PYTHON_VERSION" \
-    && apt install -y python${PYTHON_VERSION}-venv
+# Enable Apache mods
+RUN a2enmod php7.4
+RUN a2enmod rewrite
 
-WORKDIR /home/coder/project
-RUN wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.py \
-    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/nest.py \
-    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/index.php \
-    && wget https://raw.githubusercontent.com/cihuuy/nest-web/main/requirements.txt 
-# Copy and set up the start script
-COPY start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
+# Set the working directory
+WORKDIR /var/www/html
 
-# Expose port 8090
-EXPOSE 8080
+# Copy the current directory contents into the container at /var/www/html
+COPY . /var/www/html
 
-# Start the services
-CMD ["/usr/local/bin/start.sh"]
+# Set the environment variable for PHP
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+# Expose port 80
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apachectl", "-D", "FOREGROUND"]
