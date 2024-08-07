@@ -3,7 +3,13 @@ FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install necessary packages
+# Install software-properties-common to add the repository
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    && add-apt-repository ppa:ondrej/php \
+    && apt-get update
+
+# Install necessary packages
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     apache2 \
     libapache2-mod-php7.4 \
